@@ -1,4 +1,4 @@
-Nome do Jogo: Grandma	
+Nome do Jogo: Grandmother	
 
 Gênero:Arcade, Endless Running
 
