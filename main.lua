@@ -31,6 +31,14 @@ carro1.myName = "carro1"
 physics.addBody(carro1, { isSensor=true})
 carro1:setLinearVelocity (-100,0)
 
+local carro2 = display.newImageRect("carro2.png",30, 50)
+carro2.x = display.contentWidth - 550
+carro2.y = display.contentHeight - 50
+carro2.rotation = - 90
+carro2.myName = "carro2"
+physics.addBody(carro2, { isSensor=true})
+carro2:setLinearVelocity (100,0)
+
 
 local velhinha = display.newImageRect ("velhinha.png", 30, 30)
 velhinha.x = display.contentCenterX
@@ -86,33 +94,65 @@ local touchFunction = function(e)
     end
 end
 
-local movement = function(e)
-    print("entrou")
-    
-    if e.phase == "began"  then
-        if e.target.myName == "up" then
-            moveUp = 10
-            velhinha.y = velhinha.y + moveUp
-        else
-            moveDown = -10
-            velhinha.y = velhinha.y + moveDown         
+
+local function movimento(direcao, personagem)
+
+    if ( direcao.myName == "up" ) then
+        if( personagem.y - 20 > 0 ) then
+            personagem.y = personagem.y - 20
         end
-        
-    elseif e.phase == "moved"  then
-        if e.target.myName == "up" then     
-            moveUp = 10
-            velhinha.x = velhinha.x + moveUp
-        else
-            moveDown = -10
-            velhinha.x = velhinha.x + moveDown
+    elseif ( direcao.myName == "right" ) then
+        if( personagem.x + 20 < display.contentWidth ) then
+            personagem.x = personagem.x + 20
         end
-        
+    elseif ( direcao.myName == "down" ) then
+        if( personagem.y + 20 < display.contentHeight) then
+            personagem.y = personagem.y + 20
+        end
+    elseif (direcao.myName == "left") then
+        if ( personagem.x > 0 ) then
+            personagem.x = personagem.x - 20
+        end
     end
 end
 
 
+
+local setaCima = display.newImage("arrow.png")
+setaCima.x = 10
+setaCima.y = 270
+setaCima.rotation = 360
+setaCima.myName = "up"
+local andarCima = function() return movimento(setaCima,velhinha) end
+setaCima:addEventListener("tap", andarCima)
+
+local setaDireita = display.newImage("arrow.png")
+setaDireita.x = 35
+setaDireita.y = 285
+setaDireita.rotation = 90
+setaDireita.myName = "right"
+local andarDireita = function() return movimento(setaDireita,velhinha) end
+setaDireita:addEventListener("tap", andarDireita)
+
+local setaBaixo = display.newImage("arrow.png")
+setaBaixo.x = 10
+setaBaixo.y = 300
+setaBaixo.rotation = 180
+setaBaixo.myName = "down"
+local andarBaixo = function() return movimento(setaBaixo,velhinha) end
+setaBaixo:addEventListener("tap", andarBaixo)
+
+local setaEsquerda = display.newImage("arrow.png")
+setaEsquerda.x = -15
+setaEsquerda.y = 285
+setaEsquerda.rotation = 270
+setaEsquerda.myName = "left"
+local andarEsquerda = function() return movimento(setaEsquerda,velhinha) end
+setaEsquerda:addEventListener("tap", andarEsquerda)
+
+
 -- Botoes
-local arrow = {}
+--[[local arrow = {}
 
 arrow[1] = display.newImage("arrow.png")
 arrow[1].x = 10
@@ -142,6 +182,8 @@ local j=1
 for j=1, #arrow do
     arrow[j]:addEventListener("touch", touchFunction)
 end
+]]--
+
 
 
 
@@ -168,9 +210,12 @@ local function onCollision( event )
 
         local obj1 = event.object1
         local obj2 = event.object2
+        local obj3 = event.object3
 
         if ( ( obj1.myName == "velhinha" and obj2.myName == "carro1" ) or
-            ( obj1.myName == "carro1" and obj2.myName == "velhinha" ) )
+            ( obj1.myName == "carro1" and obj2.myName == "velhinha" ) or
+            ( obj1.myName == "carro2" and obj2.myName == "velhinha" ) or 
+            ( obj1.myName == "velhinha" and obj2.myName == "carro2" ))
             then
                 display.remove (obj2)
                 local myText = display.newText( "Game Over!", display.contentCenterX, 150, native.systemFont, 60 )
