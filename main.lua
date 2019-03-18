@@ -39,11 +39,26 @@ carro2.myName = "carro2"
 physics.addBody(carro2, { isSensor=true})
 carro2:setLinearVelocity (100,0)
 
+local carro3 = display.newImageRect("carro3.png",50, 40)
+carro3.x = display.contentWidth  + 100
+carro3.y = display.contentHeight - 85
+
+carro3.myName = "carro3"
+physics.addBody(carro3, { isSensor=true})
+carro3:setLinearVelocity (-100,0)
+
+local caminhao = display.newImageRect("caminhao.png",80, 40)
+caminhao.x = display.contentWidth - 700
+caminhao.y = display.contentHeight - 50
+caminhao.myName = "caminhao"
+physics.addBody(caminhao, { isSensor=true})
+caminhao:setLinearVelocity (100,0)
+
 
 local velhinha = display.newImageRect ("velhinha.png", 30, 30)
 velhinha.x = display.contentCenterX
 velhinha.y = display.contentHeight - 20
-physics.addBody( velhinha, { isSensor=true})
+physics.addBody( velhinha, {radius = 10 , isSensor=true})
 velhinha.myName = "velhinha"
 
 
