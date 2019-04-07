@@ -253,7 +253,23 @@ local function onCollision( event )
 end
 
 
- 
+local function randomImage ()
+    -- Randomise based on the os.time())
+    math.randomseed( os.time() )
+    
+    -- Randomize the image selection
+    -- name the images -> image1.png, image2.png etc
+    local imageToDisplay = "carro1,png , carro2,png"  tostring(math.random(5))  ".png"
+    
+    -- Show the name in the console for the example.
+    print (imageToDisplay)
+
+    -- now use the imageToDisplay variable as the name of your image to display.
+    -- now use the imageToDisplay variable as the name of your image to display.
+    local randomImage = display.newImageRect(imageToDisplay, 20, 20)
+end
+
+
 
 
 --Runtime:addEventListener( "collision", onCollision )
@@ -396,9 +412,26 @@ function scene:create( event )
     local andarEsquerda = function() return movimento(setaEsquerda,velhinha) end
     setaEsquerda:addEventListener("tap", andarEsquerda)
     
-
+    --nao esta dando certo looping
+    local function randomImage ()
+        -- Randomise based on the os.time())
+        math.randomseed( os.time(1) )
+        
+        -- Randomize the image selection
+        -- name the images -> image1.png, image2.png etc
+        local imageToDisplay = "carro1.png , carro2.png"  tostring(math.random(5))  ".png"
+        
+        -- Show the name in the console for the example.
+        print (imageToDisplay)
     
+        -- now use the imageToDisplay variable as the name of your image to display.
+        -- now use the imageToDisplay variable as the name of your image to display.
+        local randomImage = display.newImageRect(imageToDisplay, 30, 40)
+        randomImage.x, randomImage. y = 160, 240
+ 
+    end
     
+    Runtime:addEventListener( "random", randomImage )
     
 
 end
@@ -415,7 +448,8 @@ function scene:show( event )
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
 		physics.start()
-		Runtime:addEventListener( "collision", onCollision )
+        Runtime:addEventListener( "collision", onCollision )
+        Runtime:addEventListener( "random", randomImage )
 		gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
 	end
 end
@@ -432,7 +466,8 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		Runtime:removeEventListener( "collision", onCollision )
+        Runtime:removeEventListener( "collision", onCollision )
+        Runtime:removeEventListener( "random", randomImage )
 		physics.pause()
 		composer.removeScene( "game" )
 	end
