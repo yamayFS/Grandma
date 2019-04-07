@@ -248,10 +248,12 @@ local function onCollision( event )
                 --timer.performWithDelay( 1000, restoreShip )
 
         end
+        
     end
 end
 
 
+ 
 
 
 --Runtime:addEventListener( "collision", onCollision )
@@ -271,15 +273,6 @@ function scene:create( event )
 
     physics.pause()  -- Temporarily pause the physics engine
 
-    -- Set up display groups
-    backGroup = display.newGroup()  -- Display group for the background image
-    sceneGroup:insert( backGroup )  -- Insert into the scene's view group
- 
-    mainGroup = display.newGroup()  -- Display group for the ship, asteroids, lasers, etc.
-    sceneGroup:insert( mainGroup )  -- Insert into the scene's view group
- 
-    uiGroup = display.newGroup()    -- Display group for UI objects like the score
-    sceneGroup:insert( uiGroup )    -- Insert into the scene's view group
 
     -- Load the background
     local background = display.newImageRect ("background.png", 600, 400)
@@ -288,15 +281,51 @@ function scene:create( event )
 
     local rua = display.newImageRect("rua.jpg", 90, 30)
     rua.x = display.contentCenterX
-    rua.y = display.contentHeight -70
+    rua.y = display.contentHeight -65
     rua.rotation = 90
     rua:scale( 0.8, 18.9 )
 
+    local rua1 = display.newImageRect("rua.jpg", 80, 40)
+    rua1.x = display.contentCenterX
+    rua1.y = display.contentHeight -162
+    rua1.rotation = 90
+    rua1.myName = "rua1"
+    rua1:scale( 0.8, 18.9 )
+
+    local rua2 = display.newImageRect("rua.jpg", 80, 40)
+    rua2.x = display.contentCenterX
+    rua2.y = display.contentHeight -255
+    rua2.rotation = 90
+    rua2.myName = "rua2"
+    rua2:scale( 0.8, 18.9 )
+
     local calcada = display.newImageRect("calcada.jpg", 39, 30)
     calcada.x = display.contentCenterX
-    calcada.y = display.contentHeight -15
+    calcada.y = display.contentHeight -11
     calcada.rotation = 90
     calcada:scale( 1, 20.9 )
+
+    local calcada1 = display.newImageRect("calcada.jpg", 39, 30)
+    calcada1.x = display.contentCenterX
+    calcada1.y = display.contentHeight -116
+    calcada1.rotation = 90
+    calcada1.myName = "calcada1"
+    calcada1:scale( 0.8, 20.9 )
+
+    local calcada2 = display.newImageRect("calcada.jpg", 39, 30)
+    calcada2.x = display.contentCenterX
+    calcada2.y = display.contentHeight -208
+    calcada2.rotation = 90
+    calcada2.myName = "calcada2"
+    calcada2:scale( 0.8, 20 )
+
+    local calcada3 = display.newImageRect("calcada.jpg", 39, 30)
+    calcada3.x = display.contentCenterX
+    calcada3.y = display.contentHeight -302
+    calcada3.rotation = 90
+    calcada3.myName = "calcada3"
+    calcada3:scale( 1, 20 )
+
 
     local carro1 = display.newImageRect("carro1.png",30, 50)
     carro1.x = display.contentWidth - 1
@@ -310,23 +339,22 @@ function scene:create( event )
     carro2.x = display.contentWidth - 550
     carro2.y = display.contentHeight - 50
     carro2.rotation = - 90
-    carro2.myName = "carro2"
+    carro2.myName = "carro1"
     physics.addBody(carro2, { isSensor=true})
     carro2:setLinearVelocity (100,0)
 
     local carro3 = display.newImageRect("carro3.png",50, 40)
     carro3.x = display.contentWidth  + 100
     carro3.y = display.contentHeight - 85
-
-    carro3.myName = "carro3"
+    carro3.myName = "carro1"
     physics.addBody(carro3, { isSensor=true})
     carro3:setLinearVelocity (-100,0)
 
-    local caminhao = display.newImageRect("caminhao.png",80, 40)
+    local caminhao = display.newImageRect("caminhao.png",80, 35)
     caminhao.x = display.contentWidth - 700
     caminhao.y = display.contentHeight - 50
-    caminhao.myName = "caminhao"
-    physics.addBody(caminhao, { isSensor=true})
+    caminhao.myName = "carro1"
+    physics.addBody(caminhao, {  isSensor=true})
     caminhao:setLinearVelocity (100,0)
 
 
@@ -369,7 +397,8 @@ function scene:create( event )
     setaEsquerda:addEventListener("tap", andarEsquerda)
     
 
-    Runtime:addEventListener( "collision", onCollision )
+    
+    
     
 
 end
