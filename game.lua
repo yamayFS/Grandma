@@ -70,24 +70,6 @@ physics.addBody( velhinha, {radius = 10 , isSensor=true})
 velhinha.myName = "velhinha"
 
 
-
-
--- local function walkingVelhinha( event )
---     local velhinha = event.target
---     local phase = event.phase
-
---     if ("began" == phase ) then
---         display.currentStage:setFocus ( velhinha)
---         velhinha.touchOffsetX = event.y - velhinha.y
-    
---     elseif ("moved" == phase) then
---         velhinha.y = event.y - velhinha.touchOffsetX
-
---     elseif ( "cancelled" == phase or "ended" == phase) then 
---         display.currentStage:setFocus(nil)
---     end
---     return true
--- end
 local moveLeft = 0
 local moveRight = 0
 local moveDown = 0
@@ -209,24 +191,6 @@ end
 
 
 
-
-
-
-
--- local function restaurarVelhinha() --Incompleto
---     velhinha.isBodyActive = false
---     velhinha.x = display.contentCenterX
---     velhinha.y = display.contentHeight - 30
-
-    
---     transition.to( velhinha, {alpha=1, time=4000,
---         onComplete = function()
---             velhinha.isBodyActive = true
---             died = false
---         end
---     })
--- end
-
 local function onCollision( event ) 
 
     if ( event.phase == "began" ) then
@@ -251,30 +215,6 @@ local function onCollision( event )
         
     end
 end
-
-
-local function randomImage ()
-    -- Randomise based on the os.time())
-    math.randomseed( os.time() )
-    
-    -- Randomize the image selection
-    -- name the images -> image1.png, image2.png etc
-    local imageToDisplay = "carro1,png , carro2,png"  tostring(math.random(5))  ".png"
-    
-    -- Show the name in the console for the example.
-    print (imageToDisplay)
-
-    -- now use the imageToDisplay variable as the name of your image to display.
-    -- now use the imageToDisplay variable as the name of your image to display.
-    local randomImage = display.newImageRect(imageToDisplay, 20, 20)
-end
-
-
-
-
---Runtime:addEventListener( "collision", onCollision )
--- velhinha:addEventListener("touch", walkingVelhinha)
-
 
 
 -- -----------------------------------------------------------------------------------
@@ -430,9 +370,21 @@ function scene:create( event )
         randomImage.x, randomImage. y = 160, 240
  
     end
-    
-    Runtime:addEventListener( "random", randomImage )
-    
+    -- tbm nao funciona
+    -- images = {
+    --     display.newImage("carro1.png"),
+    --     display.newImage("carro2.png"),
+    --     display.newImage("carro3.png"),
+    --     display.newImage("caminhao.png")
+    -- }
+    -- randomImage = images[math.random(1,4)]
+    -- local randomImage = display.newImageRect(images, 30 , 40)
+    -- randomImage.x = display.contentHeight
+    -- randomImage.y = display.contentCenterY
+    -- randomImage:setLinearVelocity (100,0)
+
+
+
 
 end
 
