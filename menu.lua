@@ -8,7 +8,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 local function gotoGame()
-    composer.gotoScene( "game" )
+    composer.gotoScene( "level1" )
 end
 
 local function gotoHighScores()

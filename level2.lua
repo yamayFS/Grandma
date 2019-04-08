@@ -197,7 +197,7 @@ local function onCollision( event )
 
         local obj1 = event.object1
         local obj2 = event.object2
-        local obj3 = event.object3
+        
 
         if ( ( obj1.myName == "velhinha" and obj2.myName == "carro1" ) or
             ( obj1.myName == "carro1" and obj2.myName == "velhinha" ) or
@@ -207,14 +207,29 @@ local function onCollision( event )
                 display.remove (obj2)
                 local myText = display.newText( "Game Over!", display.contentCenterX, 150, native.systemFont, 60 )
                 myText:setFillColor( 1, 1, 1 )
-
-                --velhinha.alpha = 0
-                --timer.performWithDelay( 1000, restoreShip )
-
+                
         end
         
     end
+    if ( event.phase == "began" ) then
+        local obj1 = event.object1
+        local obj2 = event.object2
+
+        if ( ( obj1.myName == "velhinha" and obj2.myName == "calcada3" ) or
+            ( obj1.myName == "calcada3" and obj2.myName == "velhinha" ) or
+            ( obj1.myName == "calcada3" and obj2.myName == "velhinha" ) or 
+            ( obj1.myName == "velhinha" and obj2.myName == "calcada3" ))
+            then
+                
+                local myText = display.newText( "Congratulations!", display.contentCenterX, 150, native.systemFont, 60 )
+                myText:setFillColor( 1, 1, 1 )
+                local playButton = display.newText(  "Next Level", display.contentCenterX, 250, native.systemFont, 30 )
+                playButton:setFillColor( 1, 1, 1 )
+                
+        end
+    end
 end
+
 
 
 -- -----------------------------------------------------------------------------------
@@ -268,18 +283,15 @@ function scene:create( event )
     calcada1.myName = "calcada1"
     calcada1:scale( 0.8, 20.9 )
 
-    local calcada2 = display.newImageRect("calcada.jpg", 39, 30)
-    calcada2.x = display.contentCenterX
-    calcada2.y = display.contentHeight -208
-    calcada2.rotation = 90
-    calcada2.myName = "calcada2"
-    calcada2:scale( 0.8, 20 )
+    
 
     local calcada3 = display.newImageRect("calcada.jpg", 39, 30)
     calcada3.x = display.contentCenterX
     calcada3.y = display.contentHeight -302
     calcada3.rotation = 90
     calcada3.myName = "calcada3"
+    local offsetRectParams = { halfWidth=280, halfHeight=10, angle=90 }
+    physics.addBody(calcada3, { box=offsetRectParams , isSensor=true})
     calcada3:scale( 1, 20 )
 
 
@@ -420,7 +432,7 @@ function scene:hide( event )
         Runtime:removeEventListener( "collision", onCollision )
        
 		physics.pause()
-		composer.removeScene( "game" )
+		composer.removeScene( "level2" )
 	end
 end
 
