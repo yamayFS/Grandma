@@ -418,7 +418,6 @@ function scene:hide( event )
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
-        NextLevelButton:removeEventListener( "tap", gotoNextLevel )
 		physics.pause()
 		composer.removeScene( "level1" )
 	end
@@ -429,7 +428,6 @@ function scene:destroy( event )
 
 	local sceneGroup = self.view
 	-- Code here runs prior to the removal of scene's view
-
 end
 
 -- -----------------------------------------------------------------------------------
