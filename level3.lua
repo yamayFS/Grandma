@@ -37,19 +37,19 @@ local touchFunction = function(e)
     
     if e.phase == "began"  then
         if e.target.myName == "right" then
-            moveRight = 20
+            moveRight = 28
             velhinha.x = velhinha.x + moveRight
         else
-            moveLeft = -20
+            moveLeft = -28
             velhinha.x = velhinha.x + moveLeft         
         end
         
     elseif e.phase == "moved"  then
         if e.target.myName == "right" then     
-            moveRight = 20
+            moveRight = 28
             velhinha.x = velhinha.x + moveRight
         else
-            moveLeft = -20
+            moveLeft = -28
             velhinha.x = velhinha.x + moveLeft
         end
         
@@ -60,53 +60,29 @@ end
 local function movimento(direcao, personagem)
 
     if ( direcao.myName == "up" ) then
-        if( personagem.y - 20 > 0 ) then
-            personagem.y = personagem.y - 20
+        if( personagem.y - 28 > 0 ) then
+            personagem.y = personagem.y - 28
         end
     elseif ( direcao.myName == "right" ) then
-        if( personagem.x + 20 < display.contentWidth ) then
-            personagem.x = personagem.x + 20
+        if( personagem.x + 28 < display.contentWidth ) then
+            personagem.x = personagem.x + 28
         end
     elseif ( direcao.myName == "down" ) then
-        if( personagem.y + 20 < display.contentHeight) then
-            personagem.y = personagem.y + 20
+        if( personagem.y + 28 < display.contentHeight) then
+            personagem.y = personagem.y + 28
         end
     elseif (direcao.myName == "left") then
         if ( personagem.x > 0 ) then
-            personagem.x = personagem.x - 20
+            personagem.x = personagem.x - 28
         end
     end
 end
---------------------------time remaining----------------------------------
-local secondsLeft = 25  -- 10 minutes * 60 seconds
- 
-local clockText = display.newText(  "00:25", display.contentCenterX, 25,display.contentWidth,-50, native.systemFont, 30 )
-clockText:setFillColor( 0.7, 0.7, 1 )
 
------------------------------------------------------------------------
 
-local function updateTime( event )
- 
-    -- Decrement the number of seconds
-    secondsLeft = secondsLeft - 1
- 
-    -- Time is tracked in seconds; convert it to minutes and seconds
-    local minutes = math.floor( secondsLeft / 60 )
-    local seconds = secondsLeft % 60
- 
-    -- Make it a formatted string
-    local timeDisplay = string.format( "%02d:%02d", minutes, seconds )
-     
-    -- Update the text object
-    clockText.text = timeDisplay
-end
 
-local countDownTimer = timer.performWithDelay( 1000, updateTime, secondsLeft )
-
---------------------------------------------------------------------------------------
 
 local function gotoNextLevel()
-	composer.gotoScene( "level2", { time=800, effect="crossFade" } )
+	composer.gotoScene( "level3", { time=800, effect="crossFade" } )
 end
 
 local function gotoBack()
@@ -125,8 +101,7 @@ local function onCollision( event )
         if ( ( obj1.myName == "velhinha" and obj2.myName == "carro1" ) or
             ( obj1.myName == "carro1" and obj2.myName == "velhinha" ) or
             ( obj1.myName == "carro2" and obj2.myName == "velhinha" ) or 
-            ( obj1.myName == "velhinha" and obj2.myName == "carro2" )) or
-            ( clockText == "00:00")
+            ( obj1.myName == "velhinha" and obj2.myName == "carro2" ))
             then
                 display.remove (obj2)
                 display.remove (setaBaixo)
@@ -156,9 +131,7 @@ local function onCollision( event )
                 
                 local myText = display.newText(mainGroup, "Congratulations!", display.contentCenterX, 150, native.systemFont, 60 )
                 myText:setFillColor( 1, 1, 1 )
-                local NextLevelButton = display.newText( mainGroup, "Next Level", display.contentCenterX, 250, native.systemFont, 30  )
-                NextLevelButton:setFillColor( 1, 1, 1 )
-                NextLevelButton:addEventListener( "tap", gotoNextLevel )
+              
         end
     end
     if ( event.phase == "began" ) then
@@ -167,7 +140,7 @@ local function onCollision( event )
 
         -- If guy collides with coin, remove coin
         if(event.object1.myName == "velhinha" and event.object2.myName == "coin") then
-            display.remove(obj1)
+            event.object2:removeSelf();
         end
         -- Remove coin when it reaches the ground
         if(event.object1.myName == "velhinha" and event.object2.myName == "coin") then
@@ -190,23 +163,25 @@ local background = display.newImageRect (backGroup,"img/background.png", 600, 40
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
-
-
-
 local rua = display.newImageRect(mainGroup,"img/rua.jpg", 90, 30)
 rua.x = display.contentCenterX
-rua.y = display.contentHeight -85
+rua.y = display.contentHeight -65
 rua.rotation = 90
-rua:scale( 1.2, 18.9 )
+rua:scale( 0.8, 18.9 )
 
 local rua1 = display.newImageRect(mainGroup,"img/rua.jpg", 80, 40)
 rua1.x = display.contentCenterX
-rua1.y = display.contentHeight -230
+rua1.y = display.contentHeight -162
 rua1.rotation = 90
 rua1.myName = "rua1"
-rua1:scale(1.2, 18.9 )
+rua1:scale( 0.8, 18.9 )
 
-
+local rua2 = display.newImageRect(mainGroup,"img/rua.jpg", 80, 40)
+rua2.x = display.contentCenterX
+rua2.y = display.contentHeight -255
+rua2.rotation = 90
+rua2.myName = "rua2"
+rua2:scale( 0.8, 18.9 )
 
 local calcada = display.newImageRect(mainGroup,"img/calcada.jpg", 39, 30)
 calcada.x = display.contentCenterX
@@ -216,12 +191,17 @@ calcada:scale( 1, 20.9 )
 
 local calcada1 = display.newImageRect(mainGroup,"img/calcada.jpg", 39, 30)
 calcada1.x = display.contentCenterX
-calcada1.y = display.contentHeight -160
+calcada1.y = display.contentHeight -116
 calcada1.rotation = 90
 calcada1.myName = "calcada1"
-calcada1:scale( 1.2, 20.9 )
+calcada1:scale( 0.8, 20.9 )
 
-
+local calcada2 = display.newImageRect(mainGroup,"img/calcada.jpg", 39, 30)
+calcada2.x = display.contentCenterX
+calcada2.y = display.contentHeight -208
+calcada2.rotation = 90
+calcada2.myName = "calcada2"
+calcada2:scale( 0.8, 20 )
 
 local calcada3 = display.newImageRect(mainGroup,"img/calcada.jpg", 39, 30)
 calcada3.x = display.contentCenterX
@@ -230,21 +210,9 @@ calcada3.rotation = 90
 calcada3.myName = "calcada3"
 local offsetRectParams = { halfWidth=280, halfHeight=10, angle=90 }
 physics.addBody(calcada3, { box=offsetRectParams , isSensor=true})
-calcada3:scale( 1.2, 20 )
+calcada3:scale( 1, 20 )
 
-local arvore1 = display.newImageRect(mainGroup,"img/tree-1.png",30,40)
-arvore1.x = display.contentCenterX - 180
-arvore1.y = display.contentHeight - 170
-physics.addBody( arvore1, "static", { friction=0.5, bounce=0.3 } )
-arvore1.myName = "arvore1"
-
-local arvore2 = display.newImageRect(mainGroup,"img/tree-1.png",30,40)
-arvore2.x = display.contentCenterX 
-arvore2.y = display.contentHeight - 170
-physics.addBody( arvore2, "static", { friction=0.5, bounce=0.3 } )
-arvore2.myName = "arvore2"
-
-local velhinha = display.newImageRect (mainGroup,"img/grandma2.png", 30, 30)
+local velhinha = display.newImageRect (mainGroup,"img/grandma3.png", 30, 30)
 velhinha.x = display.contentCenterX
 velhinha.y = display.contentHeight - 20
 physics.addBody( velhinha, {radius = 10 , isSensor=true})
@@ -287,79 +255,111 @@ setaEsquerda:addEventListener("tap", andarEsquerda)
 -----------------------------------------gera veiculos----------------------------------------
 local function geraVeiculos()
 
-    local carro1 = display.newImageRect(mainGroup,"img/carro1.png",40, 50)
+    local carro1 = display.newImageRect(mainGroup,"img/naveVerde.png",30, 50)
     carro1.x = display.contentWidth - 1
-    carro1.y = display.contentHeight - 110
-    carro1.rotation = 90
+    carro1.y = display.contentHeight - 85
+    carro1.rotation = 270
     carro1.myName = "carro1"
-    physics.addBody(carro1, { isSensor=true})
+    physics.addBody(carro1, { radius = 10,isSensor=true})
     --carro1:setLinearVelocity (-100,0)
     transition.to( carro1, { x=-100, time = 3000, onComplete = function() display.remove( carro1 ) end } )
 
-    
-
-    local carro1 = display.newImageRect(mainGroup,"img/carro1.png",40, 50)
+    local carro1 = display.newImageRect(mainGroup,"img/naveVerde.png",30, 50)
     carro1.x = display.contentWidth - 1
-    carro1.y = display.contentHeight - 250
-    carro1.rotation = 90
+    carro1.y = display.contentHeight - 180
+    carro1.rotation = 270
     carro1.myName = "carro1"
-    physics.addBody(carro1, { isSensor=true})
+    physics.addBody(carro1, { radius = 10,isSensor=true})
+    --carro1:setLinearVelocity (-100,0)
+    transition.to( carro1, { x=-90, time = 2000, onComplete = function() display.remove( carro1 ) end } )
+
+    local carro1 = display.newImageRect(mainGroup,"img/naveVerde.png",30, 50)
+    carro1.x = display.contentWidth - 1
+    carro1.y = display.contentHeight - 270
+    carro1.rotation = 270
+    carro1.myName = "carro1"
+    physics.addBody(carro1, { radius = 10,isSensor=true})
     --carro1:setLinearVelocity (-100,0)
     transition.to( carro1, { x=-200, time = 1500, onComplete = function() display.remove( carro1 ) end } )
 
-    local carro2 = display.newImageRect(mainGroup,"img/carro2.png",40, 50)
+    local carro2 = display.newImageRect(mainGroup,"img/naveAzul.png",30, 50)
     carro2.x = display.contentWidth - 550
-    carro2.y = display.contentHeight - 60
-    carro2.rotation = - 90
+    carro2.y = display.contentHeight - 50
+    carro2.rotation = - 270
     carro2.myName = "carro1"
-    physics.addBody(carro2, { isSensor=true})
+    physics.addBody(carro2, {radius = 10, isSensor=true})
     --carro2:setLinearVelocity (100,0)
     transition.to( carro2, { x=display.contentWidth + 100, time = 3000, onComplete = function() display.remove( carro2 ) end } )
 
-    local carro2 = display.newImageRect(mainGroup,"img/carro2.png",30, 50)
+    local carro2 = display.newImageRect(mainGroup,"img/naveAzul.png",30, 50)
     carro2.x = display.contentWidth - 550
-    carro2.y = display.contentHeight - 210
-    carro2.rotation = - 90
+    carro2.y = display.contentHeight - 240
+    carro2.rotation = - 270
     carro2.myName = "carro1"
-    physics.addBody(carro2, { isSensor=true})
+    physics.addBody(carro2, { radius = 10,radius = 10,isSensor=true})
     --carro2:setLinearVelocity (100,0)
     transition.to( carro2, { x=display.contentWidth + 70, time = 3000, onComplete = function() display.remove( carro2 ) end } )
 
-    
+    local carro2 = display.newImageRect(mainGroup,"img/naveAzul.png",30, 50)
+    carro2.x = display.contentWidth - 550
+    carro2.y = display.contentHeight - 150
+    carro2.rotation = - 270
+    carro2.myName = "carro1"
+    physics.addBody(carro2, {radius = 10, isSensor=true})
+    --carro2:setLinearVelocity (100,0)
+    transition.to( carro2, { x=display.contentWidth + 170, time = 3000, onComplete = function() display.remove( carro2 ) end } )
 
-    local carro3 = display.newImageRect(mainGroup,"img/carro3.png",50, 40)
+    local carro3 = display.newImageRect(mainGroup,"img/naveAmarela.png",40, 30)
     carro3.x = display.contentWidth  + 100
-    carro3.y = display.contentHeight - 110
+    carro3.y = display.contentHeight - 85
     carro3.myName = "carro1"
-    physics.addBody(carro3, { isSensor=true})
+    carro3.rotation = 270
+    physics.addBody(carro3, { radius = 10,isSensor=true})
     --carro3:setLinearVelocity (-100,0)
     transition.to( carro3, { x=-100, time = 4000, onComplete = function() display.remove( carro3 ) end } )
 
-    
-
-    local carro3 = display.newImageRect(mainGroup,"img/carro3.png",50, 40)
+    local carro3 = display.newImageRect(mainGroup,"img/naveAmarela.png",50, 40)
     carro3.x = display.contentWidth  + 100
-    carro3.y = display.contentHeight - 250
+    carro3.y = display.contentHeight - 180
     carro3.myName = "carro1"
+    carro3.rotation = 270
+    physics.addBody(carro3, { radius= 10, isSensor=true})
+    --carro3:setLinearVelocity (-100,0)
+    transition.to( carro3, { x=-200, time = 4000, onComplete = function() display.remove( carro3 ) end } )
+
+    local carro3 = display.newImageRect(mainGroup,"img/naveAmarela.png",50, 40)
+    carro3.x = display.contentWidth  + 100
+    carro3.y = display.contentHeight - 275
+    carro3.myName = "carro1"
+    carro3.rotation = 270
     physics.addBody(carro3, { radius = 10, isSensor=true})
     --carro3:setLinearVelocity (-100,0)
     transition.to( carro3, { x=-300, time = 4000, onComplete = function() display.remove( carro3 ) end } )
 
-    local caminhao = display.newImageRect(mainGroup,"img/caminhao.png",90, 40)
+    local caminhao = display.newImageRect(mainGroup,"img/naveCinza.png",40, 35)
     caminhao.x = display.contentWidth - 700
-    caminhao.y = display.contentHeight - 60
+    caminhao.y = display.contentHeight - 50
     caminhao.myName = "carro1"
-    physics.addBody(caminhao, {  isSensor=true})
+    caminhao.rotation = 90
+    physics.addBody(caminhao, { radius = 10, isSensor=true})
     --caminhao:setLinearVelocity (100,0)
     transition.to( caminhao, { x=display.contentWidth + 100, time = 4000, onComplete = function() display.remove( caminhao ) end } )
     
-    
-
-    local caminhao = display.newImageRect(mainGroup,"img/caminhao.png",80, 35)
+    local caminhao = display.newImageRect(mainGroup,"img/naveCinza.png",40, 35)
     caminhao.x = display.contentWidth - 700
-    caminhao.y = display.contentHeight - 210
+    caminhao.y = display.contentHeight - 150
     caminhao.myName = "carro1"
-    physics.addBody(caminhao, {  isSensor=true})
+    caminhao.rotation = 90
+    physics.addBody(caminhao, {radius = 10,  isSensor=true})
+    --caminhao:setLinearVelocity (100,0)
+    transition.to( caminhao, { x=display.contentWidth + 250, time = 4000, onComplete = function() display.remove( caminhao ) end } )
+
+    local caminhao = display.newImageRect(mainGroup,"img/naveCinza.png",40, 35)
+    caminhao.x = display.contentWidth - 700
+    caminhao.y = display.contentHeight - 240
+    caminhao.myName = "carro1"
+    caminhao.rotation = 90
+    physics.addBody(caminhao, {radius = 10,  isSensor=true})
     --caminhao:setLinearVelocity (100,0)
     transition.to( caminhao, { x=display.contentWidth + 50, time = math.random(3000,5000), onComplete = function() display.remove( caminhao ) end } )
 end
@@ -399,8 +399,8 @@ function scene:show( event )
        
         coinLoop = timer.performWithDelay( 7000, createCoin, 0 )
      
-        
-        veiculoLoopTimer = timer.performWithDelay(math.random(2000,5000), geraVeiculos, 0 )
+
+        veiculoLoopTimer = timer.performWithDelay(math.random(1000,2500), geraVeiculos, 0 )
 		--gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
 	end
 end

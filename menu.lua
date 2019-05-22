@@ -2,13 +2,14 @@
 local composer = require( "composer" )
 
 local scene = composer.newScene()
+composer.recycleOnSceneChange=true
 
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 local function gotoGame()
-    composer.gotoScene( "level1", { time = 800, effect="crossFade" } )
+	composer.gotoScene( "selecaoFase", { time = 800, effect="crossFade" } )
 end
 
 local function gotoHighScores()
@@ -27,18 +28,21 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
-    local background2 = display.newImageRect( sceneGroup, "background2.jpg", 600, 400 )
+    local background2 = display.newImageRect( sceneGroup, "img/background-cidade.png", 600, 400 )
     background2.x = display.contentCenterX
-    background2.y = display.contentCenterY
+	background2.y = display.contentCenterY
+	
+	local backGrandma = display.newImageRect (sceneGroup, "img/grandma-back.png", 280,280)
+	backGrandma.x = display.contentCenterX +200
+	backGrandma.y = display.contentCenterY +30
 
-    local myText = display.newText( "Grandma!", display.contentCenterX, 50, native.systemFont, 60 )
+    local myText = display.newText( sceneGroup,"Grandma!", display.contentCenterX, 50, native.systemFont, 60 )
     myText:setFillColor( 1, 0.70, 0.80 )
 
-    local playButton = display.newText( sceneGroup, "Play", display.contentCenterX, 150, native.systemFont, 50 )
+    local playButton = display.newText( sceneGroup, "Play", display.contentCenterX, 180, native.systemFont, 50 )
     playButton:setFillColor( 1, 1, 1 )
 
-    local highScoresButton = display.newText( sceneGroup, "High Scores", display.contentCenterX, 230, native.systemFont, 44 )
-    highScoresButton:setFillColor( 1,1,1 )
+    
 
     playButton:addEventListener( "tap", gotoGame )
     
@@ -52,6 +56,7 @@ function scene:show( event )
 
 	local sceneGroup = self.view
 	local phase = event.phase
+	print('SHOWWWW')
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
@@ -74,15 +79,16 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-
+		
 	end
 end
 
 
 -- destroy()
 function scene:destroy( event )
-
+	print('DESTROYYY')
 	local sceneGroup = self.view
+	
 	-- Code here runs prior to the removal of scene's view
 
 end
