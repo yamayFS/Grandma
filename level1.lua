@@ -80,7 +80,7 @@ end
 --------------------------time remaining----------------------------------
 local secondsLeft = 25  -- 10 minutes * 60 seconds
  
-local clockText = display.newText(  "00:25", display.contentCenterX, 25,display.contentWidth,-50, native.systemFont, 30 )
+local clockText = display.newText( uiGroup, "00:25", display.contentCenterX, 25,display.contentWidth,-50, native.systemFont, 30 )
 clockText:setFillColor( 0.7, 0.7, 1 )
 
 -----------------------------------------------------------------------
@@ -177,13 +177,13 @@ local function onCollision( event )
 end
 
 
-local function createCoin()
-	coin = display.newCircle(mainGroup, math.random(0,600), math.random(0,400), math.random(10,10) )
-	coin:setFillColor(math.random(245,255),math.random(210,223),7)
-	coin:setStrokeColor(0,0,0)
-	physics.addBody( coin, "dynamic" )
-	coin.myName = "coin"
-end
+-- local function createCoin()
+-- 	coin = display.newCircle(mainGroup, math.random(0,600), math.random(0,400), math.random(10,10) )
+-- 	coin:setFillColor(math.random(245,255),math.random(210,223),7)
+-- 	coin:setStrokeColor(0,0,0)
+-- 	physics.addBody( coin, "dynamic" )
+-- 	coin.myName = "coin"
+-- end
 
 -- Load the background-------------------------------------------------------------------------------------------
 local background = display.newImageRect (backGroup,"img/background.png", 600, 400)
@@ -251,7 +251,7 @@ physics.addBody( velhinha, {radius = 10 , isSensor=true})
 velhinha.myName = "velhinha"
 
 -- SETAS --------------------------------------------------------------------
-setaCima = display.newImage(mainGroup,"img/arrow.png")
+setaCima = display.newImage(mainGroup,"img/arrow.png",)
 setaCima.x = 10
 setaCima.y = 270
 setaCima.rotation = 360
@@ -430,7 +430,7 @@ end
 function scene:destroy( event )
 
     local sceneGroup = self.view
-    timer.cancel(coinLoop)
+    --timer.cancel(coinLoop)
 	-- Code here runs prior to the removal of scene's view
 end
 

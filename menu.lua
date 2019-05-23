@@ -32,12 +32,13 @@ function scene:create( event )
     background2.x = display.contentCenterX
 	background2.y = display.contentCenterY
 	
-	local backGrandma = display.newImageRect (sceneGroup, "img/grandma-back.png", 280,280)
-	backGrandma.x = display.contentCenterX +200
+	local backGrandma = display.newImageRect (sceneGroup, "img/biggrandma.png", 250,280)
+	backGrandma.x = display.contentCenterX +180
 	backGrandma.y = display.contentCenterY +30
 
-    local myText = display.newText( sceneGroup,"Grandma!", display.contentCenterX, 50, native.systemFont, 60 )
-    myText:setFillColor( 1, 0.70, 0.80 )
+    local logoNome = display.newImageRect( sceneGroup,"img/nome.png",300,100  )
+	logoNome.x = display.contentCenterX -20
+	logoNome.y = display.contentCenterY -100
 
     local playButton = display.newText( sceneGroup, "Play", display.contentCenterX, 180, native.systemFont, 50 )
     playButton:setFillColor( 1, 1, 1 )
