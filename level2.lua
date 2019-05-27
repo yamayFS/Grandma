@@ -132,6 +132,7 @@ local function onCollision( event )
                 display.remove (setaCima)
                 display.remove (setaEsquerda)
                 display.remove (setaDireita)
+                audio.play( crashCar )
                 local myText = display.newText(mainGroup, "Game Over!", display.contentCenterX, 150, native.systemFont, 60 )
                 myText:setFillColor( 1, 1, 1 )
                 local menuButton = display.newText( mainGroup,"Voltar", display.contentCenterX, 250, native.systemFont, 30  )
@@ -442,7 +443,7 @@ function scene:create( event )
     sceneGroup:insert( backGroup )
     sceneGroup:insert( mainGroup )
     sceneGroup:insert( uiGroup )
-
+    crashCar = audio.loadSound( "music/crash-car.wav" )
    
 
 end
@@ -462,7 +463,7 @@ function scene:show( event )
         Runtime:addEventListener( "collision", onCollision )
        
         --coinLoop = timer.performWithDelay( 7000, createCoin, 0 )
-     
+        audio.play( musicTrack, { channel=1, loops=-1 } )
 
         veiculoLoopTimer = timer.performWithDelay(math.random(2000,4000), geraVeiculos, 0 )
 		--gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
@@ -484,7 +485,7 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         physics.pause()
-       
+        audio.stop( 1 )
 
 		composer.removeScene( "level2" )
 	end
@@ -494,6 +495,7 @@ end
 function scene:destroy( event )
 
     local sceneGroup = self.view
+    audio.dispose( crashCar )
     --timer.cancel(coinLoop)
 	-- Code here runs prior to the removal of scene's view
 end

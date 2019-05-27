@@ -37,19 +37,19 @@ local touchFunction = function(e)
     
     if e.phase == "began"  then
         if e.target.myName == "right" then
-            moveRight = 28
+            moveRight = 27
             velhinha.x = velhinha.x + moveRight
         else
-            moveLeft = -28
+            moveLeft = -27
             velhinha.x = velhinha.x + moveLeft         
         end
         
     elseif e.phase == "moved"  then
         if e.target.myName == "right" then     
-            moveRight = 28
+            moveRight = 27
             velhinha.x = velhinha.x + moveRight
         else
-            moveLeft = -28
+            moveLeft = -27
             velhinha.x = velhinha.x + moveLeft
         end
         
@@ -60,20 +60,20 @@ end
 local function movimento(direcao, personagem)
 
     if ( direcao.myName == "up" ) then
-        if( personagem.y - 28 > 0 ) then
-            personagem.y = personagem.y - 28
+        if( personagem.y - 27 > 0 ) then
+            personagem.y = personagem.y - 27
         end
     elseif ( direcao.myName == "right" ) then
-        if( personagem.x + 28 < display.contentWidth ) then
-            personagem.x = personagem.x + 28
+        if( personagem.x + 27 < display.contentWidth ) then
+            personagem.x = personagem.x + 27
         end
     elseif ( direcao.myName == "down" ) then
-        if( personagem.y + 28 < display.contentHeight) then
-            personagem.y = personagem.y + 28
+        if( personagem.y + 27 < display.contentHeight) then
+            personagem.y = personagem.y + 27
         end
     elseif (direcao.myName == "left") then
         if ( personagem.x > 0 ) then
-            personagem.x = personagem.x - 28
+            personagem.x = personagem.x - 27
         end
     end
 end
@@ -127,11 +127,12 @@ local function onCollision( event )
             ( obj1.myName == "carro2" and obj2.myName == "velhinha" ) or 
             ( obj1.myName == "velhinha" and obj2.myName == "carro2" ))
             then
-                display.remove (obj2)
+                display.remove (obj1)
                 display.remove (setaBaixo)
                 display.remove (setaCima)
                 display.remove (setaEsquerda)
                 display.remove (setaDireita)
+                audio.play( crashCar )
                 local myText = display.newText(mainGroup, "Game Over!", display.contentCenterX, 150, native.systemFont, 60 )
                 myText:setFillColor( 1, 1, 1 )
                 local menuButton = display.newText( mainGroup,"Voltar", display.contentCenterX, 250, native.systemFont, 30  )
@@ -398,7 +399,7 @@ function scene:create( event )
     sceneGroup:insert( backGroup )
     sceneGroup:insert( mainGroup )
     sceneGroup:insert( uiGroup )
-
+    crashCar = audio.loadSound( "music/crash-car.wav" )
    
 
 end
@@ -440,7 +441,7 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         physics.pause()
-       
+        audio.play( musicTrack, { channel=1, loops=-1 } )
 
 		composer.removeScene( "level1" )
 	end
@@ -450,6 +451,7 @@ end
 function scene:destroy( event )
 
     local sceneGroup = self.view
+    audio.stop( 1 )
     --timer.cancel(coinLoop)
 	-- Code here runs prior to the removal of scene's view
 end
