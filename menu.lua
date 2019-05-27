@@ -16,6 +16,7 @@ local function gotoHighScores()
     composer.gotoScene( "highscores" )
 end
 
+local musicTrack
 
 
 
@@ -26,7 +27,16 @@ end
 -- create()
 function scene:create( event )
 
+	
 	local sceneGroup = self.view
+
+
+
+	musicTrack = audio.loadStream( "music/musica-menu.mp3" )
+
+
+
+
 	-- Code here runs when the scene is first created but has not yet appeared on screen
     local background2 = display.newImageRect( sceneGroup, "img/background-cidade.png", 600, 400 )
     background2.x = display.contentCenterX
@@ -63,6 +73,7 @@ function scene:show( event )
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
 
 	elseif ( phase == "did" ) then
+		audio.play( musicTrack, { channel=1, loops=-1 } )
 		-- Code here runs when the scene is entirely on screen
 
 	end
@@ -79,6 +90,7 @@ function scene:hide( event )
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 
 	elseif ( phase == "did" ) then
+		audio.stop( 1 )
 		-- Code here runs immediately after the scene goes entirely off screen
 		
 	end
@@ -89,7 +101,7 @@ end
 function scene:destroy( event )
 	print('DESTROYYY')
 	local sceneGroup = self.view
-	
+	audio.dispose( musicTrack )
 	-- Code here runs prior to the removal of scene's view
 
 end

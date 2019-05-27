@@ -78,9 +78,33 @@ local function movimento(direcao, personagem)
     end
 end
 
+--------------------------time remaining----------------------------------
+local secondsLeft = 35  -- 10 minutes * 60 seconds
 
+local clockText = display.newText( uiGroup, "00:35", display.contentCenterX, 25,display.contentWidth,-50, native.systemFont, 30 )
+clockText:setFillColor( 0.7, 0.7, 1 )
 
+-----------------------------------------------------------------------
 
+local function updateTime( event )
+
+    -- Decrement the number of seconds
+    secondsLeft = secondsLeft - 1
+
+    -- Time is tracked in seconds; convert it to minutes and seconds
+    local minutes = math.floor( secondsLeft / 60 )
+    local seconds = secondsLeft % 60
+
+    -- Make it a formatted string
+    local timeDisplay = string.format( "%02d:%02d", minutes, seconds )
+
+    -- Update the text object
+    clockText.text = timeDisplay
+end
+
+local countDownTimer = timer.performWithDelay( 1000, updateTime, secondsLeft )
+
+----------------------------------------------------------------------------------------------------------------
 local function gotoNextLevel()
 	composer.gotoScene( "level3", { time=800, effect="crossFade" } )
 end
@@ -152,13 +176,13 @@ local function onCollision( event )
 end
 
 
-local function createCoin()
-	coin = display.newCircle(mainGroup, math.random(0,600), math.random(0,400), math.random(10,10) )
-	coin:setFillColor(math.random(245,255),math.random(210,223),7)
-	coin:setStrokeColor(0,0,0)
-	physics.addBody( coin, "dynamic" )
-	coin.myName = "coin"
-end
+-- local function createCoin()
+-- 	coin = display.newCircle(mainGroup, math.random(0,600), math.random(0,400), math.random(10,10) )
+-- 	coin:setFillColor(math.random(245,255),math.random(210,223),7)
+-- 	coin:setStrokeColor(0,0,0)
+-- 	physics.addBody( coin, "dynamic" )
+-- 	coin.myName = "coin"
+-- end
 
 -- Load the background-------------------------------------------------------------------------------------------
 local background = display.newImageRect (backGroup,"img/background.png", 600, 400)
@@ -214,40 +238,33 @@ local offsetRectParams = { halfWidth=280, halfHeight=10, angle=90 }
 physics.addBody(calcada3, { box=offsetRectParams , isSensor=true})
 calcada3:scale( 1, 20 )
 
-local velhinha = display.newImageRect (mainGroup,"img/grandma3.png", 30, 30)
+local velhinha = display.newImageRect (mainGroup,"img/grandma2.png", 30, 30)
 velhinha.x = display.contentCenterX
 velhinha.y = display.contentHeight - 20
 physics.addBody( velhinha, {radius = 10 , isSensor=true})
 velhinha.myName = "velhinha"
 
 -- SETAS --------------------------------------------------------------------
-setaCima = display.newImage(mainGroup,"img/arrow.png")
-setaCima.x = 10
-setaCima.y = 270
+setaCima = display.newImageRect(mainGroup,"img/arrow.png", 50,30)
+setaCima.x = 12
+setaCima.y = 260
 setaCima.rotation = 360
 setaCima.myName = "up"
 local andarCima = function() return movimento(setaCima,velhinha) end
 setaCima:addEventListener("tap", andarCima)
 
-setaDireita = display.newImage(mainGroup,"img/arrow.png")
-setaDireita.x = 35
-setaDireita.y = 285
+setaDireita = display.newImageRect(mainGroup,"img/arrow.png",45,30)
+setaDireita.x = 45
+setaDireita.y = 290
 setaDireita.rotation = 90
 setaDireita.myName = "right"
 local andarDireita = function() return movimento(setaDireita,velhinha) end
 setaDireita:addEventListener("tap", andarDireita)
 
-setaBaixo = display.newImage(mainGroup,"img/arrow.png")
-setaBaixo.x = 10
-setaBaixo.y = 300
-setaBaixo.rotation = 180
-setaBaixo.myName = "down"
-local andarBaixo = function() return movimento(setaBaixo,velhinha) end
-setaBaixo:addEventListener("tap", andarBaixo)
 
-setaEsquerda = display.newImage(mainGroup,"img/arrow.png")
-setaEsquerda.x = -15
-setaEsquerda.y = 285
+setaEsquerda = display.newImageRect(mainGroup,"img/arrow.png",45,30)
+setaEsquerda.x = -25
+setaEsquerda.y = 290
 setaEsquerda.rotation = 270
 setaEsquerda.myName = "left"
 local andarEsquerda = function() return movimento(setaEsquerda,velhinha) end
@@ -393,7 +410,7 @@ function scene:show( event )
 		physics.start()
         Runtime:addEventListener( "collision", onCollision )
        
-        coinLoop = timer.performWithDelay( 7000, createCoin, 0 )
+        --coinLoop = timer.performWithDelay( 7000, createCoin, 0 )
      
 
         veiculoLoopTimer = timer.performWithDelay(math.random(2000,4000), geraVeiculos, 0 )
@@ -418,7 +435,7 @@ function scene:hide( event )
         physics.pause()
        
 
-		composer.removeScene( "level1" )
+		composer.removeScene( "level2" )
 	end
 end
 
@@ -426,7 +443,7 @@ end
 function scene:destroy( event )
 
     local sceneGroup = self.view
-    timer.cancel(coinLoop)
+    --timer.cancel(coinLoop)
 	-- Code here runs prior to the removal of scene's view
 end
 

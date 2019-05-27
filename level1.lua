@@ -26,6 +26,7 @@ local setaEsquerda
 
 local veiculoLoopTimer
 local coinLoop
+local crashCar
 
 local moveLeft = 0
 local moveRight = 0
@@ -133,6 +134,7 @@ local function onCollision( event )
                 display.remove (setaCima)
                 display.remove (setaEsquerda)
                 display.remove (setaDireita)
+                audio.play( crashCar )
                 local myText = display.newText(mainGroup, "Game Over!", display.contentCenterX, 150, native.systemFont, 60 )
                 myText:setFillColor( 1, 1, 1 )
                 local menuButton = display.newText( mainGroup,"Voltar", display.contentCenterX, 250, native.systemFont, 30  )
@@ -251,37 +253,31 @@ physics.addBody( velhinha, {radius = 10 , isSensor=true})
 velhinha.myName = "velhinha"
 
 -- SETAS --------------------------------------------------------------------
-setaCima = display.newImage(mainGroup,"img/arrow.png",)
-setaCima.x = 10
-setaCima.y = 270
+setaCima = display.newImageRect(mainGroup,"img/arrow.png", 50,30)
+setaCima.x = 12
+setaCima.y = 260
 setaCima.rotation = 360
 setaCima.myName = "up"
 local andarCima = function() return movimento(setaCima,velhinha) end
 setaCima:addEventListener("tap", andarCima)
 
-setaDireita = display.newImage(mainGroup,"img/arrow.png")
-setaDireita.x = 35
-setaDireita.y = 285
+setaDireita = display.newImageRect(mainGroup,"img/arrow.png",45,30)
+setaDireita.x = 45
+setaDireita.y = 290
 setaDireita.rotation = 90
 setaDireita.myName = "right"
 local andarDireita = function() return movimento(setaDireita,velhinha) end
 setaDireita:addEventListener("tap", andarDireita)
 
-setaBaixo = display.newImage(mainGroup,"img/arrow.png")
-setaBaixo.x = 10
-setaBaixo.y = 300
-setaBaixo.rotation = 180
-setaBaixo.myName = "down"
-local andarBaixo = function() return movimento(setaBaixo,velhinha) end
-setaBaixo:addEventListener("tap", andarBaixo)
 
-setaEsquerda = display.newImage(mainGroup,"img/arrow.png")
-setaEsquerda.x = -15
-setaEsquerda.y = 285
+setaEsquerda = display.newImageRect(mainGroup,"img/arrow.png",45,30)
+setaEsquerda.x = -25
+setaEsquerda.y = 290
 setaEsquerda.rotation = 270
 setaEsquerda.myName = "left"
 local andarEsquerda = function() return movimento(setaEsquerda,velhinha) end
 setaEsquerda:addEventListener("tap", andarEsquerda)
+
 
 
 -----------------------------------------gera veiculos----------------------------------------
@@ -378,7 +374,7 @@ function scene:create( event )
     sceneGroup:insert( backGroup )
     sceneGroup:insert( mainGroup )
     sceneGroup:insert( uiGroup )
-
+    crashCar = audio.loadSound( "music/crash-car.wav" )
    
 
 end
@@ -398,7 +394,7 @@ function scene:show( event )
         Runtime:addEventListener( "collision", onCollision )
        
         coinLoop = timer.performWithDelay( 7000, createCoin, 0 )
-     
+        audio.play( musicTrack, { channel=1, loops=-1 } )
         
         veiculoLoopTimer = timer.performWithDelay(math.random(2000,5000), geraVeiculos, 0 )
 		--gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
@@ -420,15 +416,15 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         physics.pause()
-       
+        audio.stop( 1 )
 
-		composer.removeScene( "level1" )
+		composer.removeScene( "level" )
 	end
 end
 
 -- destroy()
 function scene:destroy( event )
-
+    audio.dispose( crashCar )
     local sceneGroup = self.view
     --timer.cancel(coinLoop)
 	-- Code here runs prior to the removal of scene's view

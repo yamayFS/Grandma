@@ -50,7 +50,11 @@ function scene:create( event )
     background:scale( 1.2, 20 )
     sceneGroup:insert( background )
 
- 
+    local nomeFase = display.newImageRect("img/fase.png",300,80)
+    nomeFase.x = display.contentCenterX
+    nomeFase.y = display.contentCenterY -100
+    sceneGroup:insert( nomeFase )
+
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     local levelSelectGroup = widget.newScrollView({
