@@ -246,10 +246,41 @@ arvore2.y = display.contentHeight - 170
 physics.addBody( arvore2, "static", { friction=0.5, bounce=0.3 } )
 arvore2.myName = "arvore2"
 
+local arvore3 = display.newImageRect(mainGroup,"img/tree-2.png",30,40)
+arvore3.x = display.contentCenterX - 150    
+arvore3.y = display.contentHeight - 20  
+physics.addBody( arvore3, "static", { friction=0.5, bounce=0.3 } )
+arvore3.myName = "arvore3"
+
+local arvore4 = display.newImageRect(mainGroup,"img/tree-2.png",30,40)
+arvore4.x = display.contentCenterX - 180    
+arvore4.y = display.contentHeight - 20  
+physics.addBody( arvore4, "static", { friction=0.5, bounce=0.3 } )
+arvore4.myName = "arvore4"
+
+local arvore5 = display.newImageRect(mainGroup,"img/tree-1.png",30,40)
+arvore5.x = display.contentCenterX + 150    
+arvore5.y = display.contentHeight - 300  
+physics.addBody( arvore5, "static", { friction=0.5, bounce=0.3 } )
+arvore5.myName = "arvore5"
+
+local arvore6 = display.newImageRect(mainGroup,"img/tree-2.png",30,40)
+arvore6.x = display.contentCenterX + 70    
+arvore6.y = display.contentHeight - 170  
+physics.addBody( arvore6, "static", { friction=0.5, bounce=0.3 } )
+arvore6.myName = "arvore6"
+
+local cadeira = display.newImageRect(mainGroup,"img/bench-wood.png",60,40)
+cadeira.x = display.contentCenterX -80    
+cadeira.y = display.contentHeight - 300  
+physics.addBody( cadeira, "static", { friction=0.5, bounce=0.3 } )
+cadeira.myName = "cadeira"
+
+
 local velhinha = display.newImageRect (mainGroup,"img/grandma2.png", 30, 30)
 velhinha.x = display.contentCenterX
 velhinha.y = display.contentHeight - 20
-physics.addBody( velhinha, {radius = 10 , isSensor=true})
+physics.addBody( velhinha, {radius = 10})
 velhinha.myName = "velhinha"
 
 -- SETAS --------------------------------------------------------------------

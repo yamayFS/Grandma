@@ -450,7 +450,7 @@ end
 function scene:destroy( event )
 
     local sceneGroup = self.view
-    timer.cancel(coinLoop)
+    --timer.cancel(coinLoop)
 	-- Code here runs prior to the removal of scene's view
 end
 
